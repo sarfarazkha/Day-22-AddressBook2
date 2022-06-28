@@ -1,10 +1,14 @@
 package com.bridgelabz.addressbook2;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBook{
     private  String addressBookName;
     static Scanner scanner = new Scanner(System.in);
+
+    List<Contacts> contactsList = new ArrayList<>();
 
     public AddressBook(String addressBookName) {
         this.addressBookName = addressBookName;
