@@ -43,16 +43,40 @@ public class AddressMain {
         addressBook1.contactsList.add(c5);
 
         addressBookMap.put("Addressbook1", addressBook1);
+        addressBook1.contactsList.stream().forEach(x->{
+            if(stateContactsMap.containsKey(x.getState())){
+                List<Contacts> contactsList =stateContactsMap.get(x.getState());
+                contactsList.add(x);
+            }
+            else {
+                List<Contacts> contactsList=new ArrayList<>();
+                contactsList.add(x);
+                stateContactsMap.put(x.getState(),contactsList);
+            }
+        });
+        addressBook1.contactsList.stream().forEach(x->{
+            if(cityContactsMap.containsKey(x.getCity())){
+                List<Contacts> contactsList = cityContactsMap.get(x.getCity());
+                contactsList.add(x);
+            }
+            else{
+                List<Contacts> contactsList=new ArrayList<>();
+                contactsList.add(x);
+                cityContactsMap.put(x.getCity(),contactsList);
+            }
+        });
 
-
-        for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
-            AddressBook addressBook = entry.getValue();
-            List<Contacts> contactsList = addressBook.contactsList.stream().
-                    filter(x -> x.getCity().equals("Mumbai")).collect(Collectors.toList());
-            System.out.println(contactsList);
-        }
+        System.out.println(addressBook1.contactsList);
+        System.out.println("state Contact map");
+        System.out.println(stateContactsMap);
+        System.out.println("City Contact Map");
+        System.out.println(cityContactsMap);
     }
+
 }
+
+
+
 
 
 
