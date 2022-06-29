@@ -14,6 +14,21 @@ public class AddressMain {
 
     static Map<String, List<Contacts>> stateContactsMap = new HashMap<>();
 
+
+    void getCount(String state) {
+        int count = 0;
+        for (Map.Entry<String, AddressBook> addressBookEntry : addressBookMap.entrySet()) {
+            for (int i = 0; i < (addressBookEntry.getValue()).contactsList.size(); i++) {
+                Contacts contacts = addressBookEntry.getValue().contactsList.get(i);
+                if (state.equals(contacts.getState())) {
+                    count++;
+                }
+            }
+        }
+        System.out.println("Total Person Count in state " + state + ": " + count);
+    }
+
+
     public static void main(String[] args) {
         Contacts c1 = new Contacts("sarfaraz", "khan", "sarfaraz@123",
                 "9900", "shantinagar",
@@ -24,6 +39,11 @@ public class AddressMain {
         Contacts c3 = new Contacts("taiyaba", "khan", "taiyaba@123",
                 "7700", "shantinagar",
                 440002, "Delhi", "Delhi");
+        AddressBook addressBook1 = new AddressBook();
+        addressBook1.contactsList.add(c1);
+        addressBook1.contactsList.add(c2);
+        addressBook1.contactsList.add(c3);
+
         Contacts c4 = new Contacts("Paarth", "khan", "paarth@123",
                 "9900", "Itwari",
                 4400021, "Maharastra", "Pune");
@@ -33,47 +53,28 @@ public class AddressMain {
         Contacts c6 = new Contacts("Pavan", "khan", "pavan@123",
                 "9900", "Itwari",
                 440002, "Delhi", "agra");
+        AddressBook addressBook2 = new AddressBook();
+        addressBook2.contactsList.add(c4);
+        addressBook2.contactsList.add(c5);
+        addressBook2.contactsList.add(c6);
 
-        AddressBook addressBook1 = new AddressBook();
-        addressBook1.contactsList.add(c1);
-        addressBook1.contactsList.add(c2);
-        addressBook1.contactsList.add(c3);
-        addressBook1.contactsList.add(c3);
-        addressBook1.contactsList.add(c4);
-        addressBook1.contactsList.add(c5);
+        addressBookMap.put("AddressBook1", addressBook1);
+        addressBookMap.put("AddressBook2", addressBook2);
 
-        addressBookMap.put("Addressbook1", addressBook1);
-        addressBook1.contactsList.stream().forEach(x->{
-            if(stateContactsMap.containsKey(x.getState())){
-                List<Contacts> contactsList =stateContactsMap.get(x.getState());
-                contactsList.add(x);
-            }
-            else {
-                List<Contacts> contactsList=new ArrayList<>();
-                contactsList.add(x);
-                stateContactsMap.put(x.getState(),contactsList);
-            }
-        });
-        addressBook1.contactsList.stream().forEach(x->{
-            if(cityContactsMap.containsKey(x.getCity())){
-                List<Contacts> contactsList = cityContactsMap.get(x.getCity());
-                contactsList.add(x);
-            }
-            else{
-                List<Contacts> contactsList=new ArrayList<>();
-                contactsList.add(x);
-                cityContactsMap.put(x.getCity(),contactsList);
-            }
-        });
 
-        System.out.println(addressBook1.contactsList);
-        System.out.println("state Contact map");
-        System.out.println(stateContactsMap);
-        System.out.println("City Contact Map");
-        System.out.println(cityContactsMap);
+        for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
+            AddressBook addressBook = entry.getValue();
+            List<Contacts> contactsList = addressBook.contactsList.stream().
+                    filter(x -> x.getCity().equals("Mumbai")).collect(Collectors.toList());
+            System.out.println(contactsList);
+        }
+
+        AddressMain addressMain = new AddressMain();
+        addressMain.getCount("Maharastra");
+
     }
-
 }
+
 
 
 
